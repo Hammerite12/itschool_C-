@@ -1,5 +1,5 @@
 //Exercitiul 1:
-/*
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@ private:
     std::string name;
     std::vector<int> data;
 public:
-    MyClass(const std::string& n, int size);
+    MyClass(const std::string& n, vector<int> size);
     MyClass(const std::string& n);
     MyClass(MyClass&& n_move, MyClass&& size_move);
     void print();
@@ -47,10 +47,10 @@ int main() {
 
     return 0;
 }
-*/
+
 
 //Exercitiul 2:
-
+/*
 #include <iostream>
 
 class Point {
@@ -87,3 +87,4 @@ int main() {
 
     return 0;
 }
+*/
