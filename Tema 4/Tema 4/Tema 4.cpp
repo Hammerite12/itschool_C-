@@ -117,7 +117,7 @@ int main()
     //cout << "Exercitiul 1: " << endl;
     //ex1();
 
-  cout << "Exercitiul 2: " << endl;
+    cout << "Exercitiul 2: " << endl;
     char a;
     cout << "Buna ziua! Doriti sa returnati sau sa imprumutati o carte? (r/i): ";
     cin >> a;
