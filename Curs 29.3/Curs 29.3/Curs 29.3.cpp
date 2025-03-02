@@ -4,7 +4,7 @@ using namespace std;
 
 //exemplu lista simplu inlantuita:
 //putem sa parcurgem intr-o singura directie
-/*
+
 struct Node {
     int date;       //datele stocate in nod
     Node* next;     //pointer catre urmatorul nod
@@ -67,9 +67,9 @@ int main() {
 
     return 0;
 }
-*/
-//===================================================================================================================
 
+//===================================================================================================================
+/*
 struct Node {
     int date;       //datele stocate in nod
     Node* next;     //pointer catre urmatorul nod
@@ -147,3 +147,4 @@ int main() {
 
     return 0;
 }
+*/
