@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-
+/*
 struct Nod {
     int data;       //valoare stocata in nod
     Nod* next;      //pointer catre urmatorul nod
@@ -20,7 +20,7 @@ public:
     //constructor pentru a initializa lista
     Lista() :head(nullptr), tail(nullptr) {}
 
-    void afisare_inceput(int val) {
+    void adaugare_inceput(int val) {
         Nod* nouNod = new Nod(val);
         if (!head) {
             head = tail = nouNod;       //daca lista este goala, capul si coada devin noul nod
@@ -113,7 +113,7 @@ int main() {
 
     return 0;
 }
-
+*/
 //=====================================================================================================
 
 struct Nod {
@@ -162,7 +162,7 @@ public:
         }
 
         Nod* temp = head;
-        while (temp->next && temp->data != val) {
+        while (temp->next && temp->next->data != val) {
             temp = temp->next;      //mergi prin lista pentru a gasi nodul cu valoarea
         }
 
@@ -172,16 +172,15 @@ public:
             temp->next = temp->next->next;      //sterge nodul gasit
             delete nod_sters;       //eliberam memoria
         }
-
-        void afisare() {
-            Nod* temp = head;
-            while (temp) {
-                cout << temp->data << endl;
-                temp = temp->
-            }
-        }
-
     }
+
+    void afisare() {
+        Nod* temp = head;
+        while (temp) {
+            cout << temp->data << endl;
+            temp = temp->next;
+        }
+    };
 
     //destructor pentru a elibera memoria
     ~Lista() {
