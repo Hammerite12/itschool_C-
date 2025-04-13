@@ -204,19 +204,21 @@ c) *y=*x;   d) y=&m;
 e) y=x;
 */
 
-/*
+
 int main() {
 	int m, * x, * y;
+	*x = 10;
+	*y = 12;
 
-	x = m;			//eroare: variabila m de tip int nu poate fi atribuita pointerului x
-	*x = *m;		//eroare: variabila m nu este pointer
+	//x = m;			//eroare: variabila m de tip int nu poate fi atribuita pointerului x
+	//*x = *m;		//eroare: variabila m nu este pointer
 	*y = *x;
 	y = &m;
 	y = x;
 
 	return 0;
 }
-*/
+
 
 /* Atribuirile corecte sunt c) *y=*x;, d) y=&m; si e) y=x;. */
 
