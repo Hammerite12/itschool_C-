@@ -1,10 +1,14 @@
 #pragma once
 #include <raylib.h>
+#include "Laser.h"
+#include <vector>
 
+//clasa navei spatiale:
 class Spaceship {
 private:
-	Texture2D image;		//imaginea 2D a navei spatiale
-	Vector2 position;		//pozitia navei spatiale
+	Texture2D image;				//imaginea 2D a navei spatiale
+	Vector2 position;				//pozitia navei spatiale
+	double lastFireTime;			//timpul ultimului laser lansat de nava spatiala
 
 public:
 	Spaceship();
@@ -14,4 +18,6 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void FireLaser();
+
+	std::vector<Laser> lasers;		//vectorul razelor laser
 };

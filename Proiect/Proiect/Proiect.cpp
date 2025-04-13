@@ -1,4 +1,3 @@
-#include <iostream>
 #include <raylib.h>
 #include "Game.h"
 
@@ -13,14 +12,13 @@ int main()
 
     Game game;
     
-    while(WindowShouldClose() == false) {                               //fereastra va rula jocul atata timp cat utilizatorul nu va apasa pe Esc sau pe X
+    while(WindowShouldClose() == false) {       //fereastra va rula jocul atata timp cat utilizatorul nu va apasa pe Esc sau pe X
 
         game.HandleInput();
-
+        game.Update();
         BeginDrawing();                                                 //functia creaza fundalul negru al jocului
         ClearBackground(grey);                                          //functia inlocuieste fundalul negru cu un fundal gri
         game.Draw();
-
         EndDrawing();                                                   //functia opreste crearea fundalului negru
     }
 
