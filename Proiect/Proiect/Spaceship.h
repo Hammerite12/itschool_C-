@@ -18,6 +18,8 @@ public:
 	void MoveLeft();
 	void MoveRight();
 	void FireLaser();
+	void Reset();
+	Rectangle getRect();
 
 	std::vector<Laser> lasers;		//vectorul razelor laser
 };

@@ -36,7 +36,7 @@ int Alien::GetType() {
 
 //metoda care va sterge imaginile inamicilor din memoria computer-ului cand fereastra va fi inchisa:
 void Alien::UnloadImages() {
-	for (int i = 0; 1 < 4; i++) {
+	for (int i = 0; i < 3; i++) {
 		UnloadTexture(alienImages[i]);
 	}
 }
@@ -44,4 +44,9 @@ void Alien::UnloadImages() {
 //metoda care va actualiza pozitia inamicilor pe ecran:
 void Alien::Update(int direction) {
 	position.x += direction;
+}
+
+//metoda care va adauga coliziune inamicilor:
+Rectangle Alien::getRect() {
+	return { position.x, position.y, float(alienImages[type - 1].width), float(alienImages[type - 1].height) };
 }

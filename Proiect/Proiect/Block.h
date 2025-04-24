@@ -10,4 +10,5 @@ public:
 	Block(Vector2 position);
 
 	void Draw();
+	Rectangle getRect();
 };

@@ -1,14 +1,14 @@
 #include "spaceship.h"
 
 Spaceship::Spaceship() {
-	image = LoadTexture("Graphics/spaceship.png");		//functia trimite poza navei spatiale catre atributul "image"
-	position.x = (GetScreenWidth() - image.width)/2;
-	position.y = GetScreenHeight() - image.height;
+	image = LoadTexture("Graphics/spaceship.png");			//functia trimite poza navei spatiale catre atributul "image"
+	position.x = (GetScreenWidth() - image.width) / 2;
+	position.y = GetScreenHeight() - image.height - 100;
 	lastFireTime = 0.0;
 }
 
 Spaceship::~Spaceship() {
-	UnloadTexture(image);								//functia sterge poza navei spatiale pentru a elibera memoria calculatorului
+	UnloadTexture(image);									//functia sterge poza navei spatiale pentru a elibera memoria calculatorului
 }
 
 //metoda care va desena nava spatiala pe ecran:
@@ -19,16 +19,16 @@ void Spaceship::Draw() {
 //metoda care va misca nava spatiala spre stanga:
 void Spaceship::MoveLeft() {
 	position.x -= 7;
-	if (position.x < 0) {
-		position.x = 0;
+	if (position.x < 25) {
+		position.x = 25;
 	}
 }
 
 //metoda care va misca nava spatiala spre dreapta:
 void Spaceship::MoveRight() {
 	position.x += 7;
-	if (position.x > GetScreenWidth() - image.width) {
-		position.x = GetScreenWidth() - image.width;
+	if (position.x > GetScreenWidth() - image.width - 25) {
+		position.x = GetScreenWidth() - image.width - 25;
 	}
 }
 
@@ -38,4 +38,16 @@ void Spaceship::FireLaser() {
 		lasers.push_back(Laser({ position.x + image.width / 2 - 2, position.y }, -6));
 		lastFireTime = GetTime();
 	}
+}
+
+//metoda care va adauga coliziune navei spatiale:
+Rectangle Spaceship::getRect() {
+	return { position.x, position.y, float(image.width), float(image.height) };
+}
+
+//metoda care va reseta nava spatiala inainte de a incepe urmatorul joc:
+void Spaceship::Reset() {
+	position.x = (GetScreenWidth() - image.width) / 2;
+	position.y = GetScreenHeight() - image.height - 100;
+	lasers.clear();
 }

@@ -17,8 +17,18 @@ void Laser::Draw() {
 void Laser::Update() {
 	position.y += speed;
 	if (active) {
-		if (position.y > GetScreenHeight() || position.y < 0) {
+		if (position.y > GetScreenHeight() - 100 || position.y < 25) {
 			active = false;
 		}
 	}
+}
+
+//metoda care va adauga coliziune razei laser:
+Rectangle Laser::getRect() {
+	Rectangle rect;
+	rect.x = position.x;
+	rect.y = position.y;
+	rect.width = 4;
+	rect.height = 15;
+	return rect;
 }
