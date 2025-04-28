@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 
-//clasa blocurilor care vor alcatui obstacolul:
+//clasa blocurilor care vor alcatui obstacolul
 class Block {
 private:
 	Vector2 position;					//pozitia blocului

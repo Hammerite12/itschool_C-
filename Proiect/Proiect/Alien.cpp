@@ -24,29 +24,29 @@ Alien::Alien(int type, Vector2 position) {
 	}
 }
 
-//metoda care va desena inamicii pe ecran:
+//metoda care va desena inamicii pe ecran
 void Alien::Draw() {
 	DrawTextureV(alienImages[type - 1], position, WHITE);
 }
 
-//metoda care va returna varianta inamicului:
+//metoda care va returna varianta inamicului
 int Alien::GetType() {
 	return type;
 }
 
-//metoda care va sterge imaginile inamicilor din memoria computer-ului cand fereastra va fi inchisa:
+//metoda care va sterge imaginile inamicilor din memoria computer-ului cand fereastra va fi inchisa
 void Alien::UnloadImages() {
 	for (int i = 0; i < 3; i++) {
 		UnloadTexture(alienImages[i]);
 	}
 }
 
-//metoda care va actualiza pozitia inamicilor pe ecran:
+//metoda care va actualiza pozitia inamicilor pe ecran
 void Alien::Update(int direction) {
 	position.x += direction;
 }
 
-//metoda care va adauga coliziune inamicilor:
+//metoda care va adauga coliziune inamicilor
 Rectangle Alien::getRect() {
 	return { position.x, position.y, float(alienImages[type - 1].width), float(alienImages[type - 1].height) };
 }

@@ -31,7 +31,7 @@ Obstacle::Obstacle(Vector2 position) {
 	}
 }
 
-//metoda care va desena obstacolele pe ecran:
+//metoda care va desena obstacolele pe ecran
 void Obstacle::Draw() {
 	for (auto& block : blocks) {
 		block.Draw();

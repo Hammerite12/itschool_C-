@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 
-//clasa razei laser:
+//clasa razei laser
 class Laser {
 private:
 	Vector2 position;							//pozitia razei laser

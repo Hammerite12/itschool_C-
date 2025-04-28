@@ -9,6 +9,7 @@ private:
 	Texture2D image;				//imaginea 2D a navei spatiale
 	Vector2 position;				//pozitia navei spatiale
 	double lastFireTime;			//timpul ultimului laser lansat de nava spatiala
+	Sound laserSound;				//sunetul razei laser lansate de nava spatiala
 
 public:
 	Spaceship();

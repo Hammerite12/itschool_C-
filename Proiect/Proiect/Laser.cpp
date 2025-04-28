@@ -7,13 +7,13 @@ Laser::Laser(Vector2 position, int speed) {
 	active = true;
 }
 
-//metoda care va desena raza laser pe ecran:
+//metoda care va desena raza laser pe ecran
 void Laser::Draw() {
 	if(active)
 		DrawRectangle(position.x, position.y, 4, 15, { 243, 216, 63, 255 });
 }
 
-//metoda care va actualiza pozitia razei laser pe ecran:
+//metoda care va actualiza pozitia razei laser pe ecran
 void Laser::Update() {
 	position.y += speed;
 	if (active) {
@@ -23,7 +23,7 @@ void Laser::Update() {
 	}
 }
 
-//metoda care va adauga coliziune razei laser:
+//metoda care va adauga coliziune razei laser
 Rectangle Laser::getRect() {
 	Rectangle rect;
 	rect.x = position.x;

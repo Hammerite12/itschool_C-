@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 
-//clasa inamicilor:
+//clasa inamicilor
 class Alien {
 private:
 

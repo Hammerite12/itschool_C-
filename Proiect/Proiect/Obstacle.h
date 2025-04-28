@@ -2,7 +2,7 @@
 #include <vector>
 #include "Block.h"
 
-//clasa obstacolelor:
+//clasa obstacolelor
 class Obstacle {
 private:
 

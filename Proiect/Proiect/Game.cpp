@@ -1,23 +1,23 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
 
 Game::Game() {
-	obstacles = CreateObstacles();
-	aliens = CreateAliens();
-	aliensDirection = 1;
-	timeLastAlienFired = 0.0;
-	timeLastSpawn = 0.0;
-	lives = 3;
-	run = true;
-	mysteryShipSpawnInterval = GetRandomValue(10, 20);
+	music = LoadMusicStream("Sounds/music.mp3");
+	alienExplosionSound = LoadSound("Sounds/alien_explosion.ogg");
+	spaceshipExplosionSound = LoadSound("Sounds/spaceship_explosion.wav");
+	PlayMusicStream(music);
 	InitGame();
 }
 
 Game::~Game() {
 	Alien::UnloadImages();
+	UnloadMusicStream(music);
+	UnloadSound(alienExplosionSound);
+	UnloadSound(spaceshipExplosionSound);
 }
 
-//metoda care va desena obiectele jocului pe ecran:
+//metoda care va desena obiectele jocului pe ecran
 void Game::Draw() {
 	spaceship.Draw();
 
@@ -40,7 +40,7 @@ void Game::Draw() {
 	mysteryship.Draw();
 }
 
-//metoda care va actualiza pozitia obiectelor jocului pe ecran:
+//metoda care va actualiza pozitia obiectelor jocului pe ecran
 void Game::Update() {
 	if (run) {
 		double currentTime = GetTime();
@@ -73,7 +73,7 @@ void Game::Update() {
 	}
 }
 
-//metoda care va controla miscarile navei spatiale in functie de tastele apasate de catre utilizator:
+//metoda care va controla miscarile navei spatiale in functie de tastele apasate de catre utilizator
 void Game::HandleInput() {
 	if (run) {
 		if (IsKeyDown(KEY_LEFT)) {
@@ -88,7 +88,7 @@ void Game::HandleInput() {
 	}
 }
 
-//metoda care va sterge razele laser care au iesit din ecran:
+//metoda care va sterge razele laser care au iesit din ecran
 void Game::DeleteInactiveLasers() {
 	for (auto it = spaceship.lasers.begin(); it != spaceship.lasers.end();) {
 		if (!it->active) {
@@ -109,7 +109,7 @@ void Game::DeleteInactiveLasers() {
 	}
 }
 
-//metoda care va crea obstacolele:
+//metoda care va crea obstacolele
 std::vector<Obstacle> Game::CreateObstacles() {
 	int obstacleWidth = Obstacle::grid[0].size() * 3;
 	float gap = (GetScreenWidth() - (4 * obstacleWidth)) / 5;
@@ -121,7 +121,7 @@ std::vector<Obstacle> Game::CreateObstacles() {
 	return obstacles;
 }
 
-//metoda care va crea inamicii:
+//metoda care va crea inamicii
 std::vector<Alien> Game::CreateAliens() {
 	std::vector<Alien> aliens;
 	for (int row = 0; row < 5; row++) {
@@ -146,7 +146,7 @@ std::vector<Alien> Game::CreateAliens() {
 	return aliens;
 }
 
-//metoda care va muta inamicii:
+//metoda care va muta inamicii
 void Game::MoveAliens() {
 	for (auto& alien : aliens) {
 		if (alien.position.x + alien.alienImages[alien.type - 1].width > GetScreenWidth() - 25) {
@@ -162,14 +162,14 @@ void Game::MoveAliens() {
 	}
 }
 
-//metoda care va muta inamicii cu un rand mai jos:
+//metoda care va muta inamicii cu un rand mai jos
 void Game::MoveDownAliens(int distance) {
 	for (auto& alien : aliens) {
 		alien.position.y += distance;
 	}
 }
 
-//metoda care va lansa razele laser din inamici:
+//metoda care va lansa razele laser din inamici
 void Game::AlienShootLaser() {
 	double currentTime = GetTime();
 	if (currentTime - timeLastAlienFired >= alienLaserShootInterval && !aliens.empty()) {
@@ -181,13 +181,25 @@ void Game::AlienShootLaser() {
 	}
 }
 
-//metoda care va verifica coliziunile obiectelor din joc:
+//metoda care va verifica coliziunile obiectelor din joc
 void Game::CheckForCollisions() {
-	//Spaceship Lasers:
+
+	//Spaceship Lasers
 	for (auto& laser : spaceship.lasers) {
 		auto it = aliens.begin();
 		while (it != aliens.end()) {
 			if (CheckCollisionRecs(it->getRect(), laser.getRect())) {
+				PlaySound(alienExplosionSound);
+				if (it->type == 1) {
+					score += 100;
+				}
+				else if (it->type == 2) {
+					score += 200;
+				}
+				else if (it->type == 3) {
+					score += 300;
+				}
+				CheckForHighscore();
 				it = aliens.erase(it);
 				laser.active = false;
 			}
@@ -212,12 +224,16 @@ void Game::CheckForCollisions() {
 		if (CheckCollisionRecs(mysteryship.getRect(), laser.getRect())) {
 			mysteryship.alive = false;
 			laser.active = false;
+			score += 500;
+			CheckForHighscore();
+			PlaySound(alienExplosionSound);
 		}
 	}
 
-	//Alien Lasers:
+	//Alien Lasers
 	for (auto& laser : alienLasers) {
 		if (CheckCollisionRecs(laser.getRect(), spaceship.getRect())) {
+			PlaySound(spaceshipExplosionSound);
 			laser.active = false;
 			lives--;
 			if (lives == 0) {
@@ -239,7 +255,7 @@ void Game::CheckForCollisions() {
 		}
 	}
 
-	//Alien Collision with Obstacle:
+	//Alien Collision with Obstacle
 	for (auto& alien : aliens) {
 		for (auto& obstacle : obstacles) {
 			auto it = obstacle.blocks.begin();
@@ -259,12 +275,12 @@ void Game::CheckForCollisions() {
 	}
 }
 
-//metoda care va finaliza jocul:
+//metoda care va finaliza jocul
 void Game::GameOver() {
 	run = false;
 }
 
-//metoda care va initializa obiectele jocului:
+//metoda care va initializa obiectele jocului
 void Game::InitGame() {
 	obstacles = CreateObstacles();
 	aliens = CreateAliens();
@@ -272,14 +288,50 @@ void Game::InitGame() {
 	timeLastAlienFired = 0.0;
 	timeLastSpawn = 0.0;
 	lives = 3;
+	score = 0;
+	highscore = LoadHighscoreFromFile();
 	run = true;
 	mysteryShipSpawnInterval = GetRandomValue(10, 20);
 }
 
-//metoda care va reseta jocul:
+//metoda care va reseta jocul
 void Game::Reset() {
 	spaceship.Reset();
 	aliens.clear();
 	alienLasers.clear();
 	obstacles.clear();
+}
+
+//metoda care va compara cel mai mare scor salvat cu scorul actual
+void Game::CheckForHighscore() {
+	if (score > highscore) {
+		highscore = score;
+		SaveHighscoreToFile(highscore);
+	}
+}
+
+//metoda care va salva cel mai mare scor
+void Game::SaveHighscoreToFile(int highscore) {
+	std::ofstream highscoreFile("highscore.txt");
+	if (highscoreFile.is_open()) {
+		highscoreFile << highscore;
+		highscoreFile.close();
+	}
+	else {
+		std::cerr << "Failed to save highscore to file" << std::endl;
+	}
+}
+
+//metoda care va afisa cel mai mare scor
+int Game::LoadHighscoreFromFile() {
+	int loadedHighscore = 0;
+	std::ifstream highscoreFile("highscore.txt");
+	if (highscoreFile.is_open()) {
+		highscoreFile >> loadedHighscore;
+		highscoreFile.close();
+	}
+	else {
+		std::cerr << "Failed to load highscore from file." << std::endl;
+	}
+	return loadedHighscore;
 }

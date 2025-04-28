@@ -1,5 +1,13 @@
 #include <raylib.h>
 #include "Game.h"
+#include <string>
+
+//metoda care va afisa punctele scorului pe ecran
+std::string FormatWithLeadingZeros(int number, int width) {
+    std::string numberText = std::to_string(number);
+    int leadingZeros = width - numberText.length();
+    return numberText = std::string(leadingZeros, '0') + numberText;
+}
 
 int main()
 {
@@ -10,15 +18,17 @@ int main()
     int window_height = 700;
 
     InitWindow(window_width + offset, window_height + 2 * offset, "C++ Space Invaders");
+    InitAudioDevice();
 
-    Font font = LoadFontEx("Font/monogram.ttf", 64, 0, 0);                                  //fontul textului din joc
+    Font font = LoadFontEx("Font/monogram.ttf", 64, 0, 0);
     Texture2D spaceshipImage = LoadTexture("Graphics/spaceship.png");
 
-    SetTargetFPS(60);                                                                       //viteza la care va rula jocul
+    SetTargetFPS(60);
 
     Game game;
     
     while(WindowShouldClose() == false) {       //fereastra va rula jocul atata timp cat utilizatorul nu va apasa pe Esc sau pe X
+        UpdateMusicStream(game.music);
         game.HandleInput();
         game.Update();
         BeginDrawing();                                                             //functia care creaza fundalul negru al jocului
@@ -39,9 +49,18 @@ int main()
             x += 50;
         }
 
+        DrawTextEx(font, "SCORE", { 50, 15 }, 34, 2, yellow);
+        std::string scoreText = FormatWithLeadingZeros(game.score, 5);
+        DrawTextEx(font, scoreText.c_str(), { 50, 40 }, 34, 2, yellow);
+
+        DrawTextEx(font, "HIGH-SCORE", { 570, 15 }, 34, 2, yellow);
+        std::string highscoreText = FormatWithLeadingZeros(game.highscore, 5);
+        DrawTextEx(font, highscoreText.c_str(), { 655, 40 }, 34, 2, yellow);
+
         game.Draw();
         EndDrawing();                                                               //functia care opreste crearea fundalului negru
     }
 
     CloseWindow();
+    CloseAudioDevice();
 }

@@ -4,12 +4,12 @@ Block::Block(Vector2 position) {
 	this->position = position;
 }
 
-//metoda care va desena blocurile obstacolelor pe ecran:
+//metoda care va desena blocurile obstacolelor pe ecran
 void Block::Draw() {
-	DrawRectangle(position.x, position.y, 3, 3, { 243, 216, 63, 255 });		
+	DrawRectangle(position.x, position.y, 3, 3, { 127, 106, 79, 255 });
 }
 
-//metoda care va adauga coliziune blocurilor:
+//metoda care va adauga coliziune blocurilor
 Rectangle Block::getRect() {
 	Rectangle rect;
 	rect.x = position.x;

@@ -25,7 +25,7 @@ void MysteryShip::Spawn() {
 	alive = true;
 }
 
-//metoda care va actualiza pozitia navei misterioase pe ecran:
+//metoda care va actualiza pozitia navei misterioase pe ecran
 void MysteryShip::Update() {
 	if (alive) {
 		position.x += speed;
@@ -35,14 +35,14 @@ void MysteryShip::Update() {
 	}
 }
 
-//metoda care va desena nava misterioasa pe ecran:
+//metoda care va desena nava misterioasa pe ecran
 void MysteryShip::Draw() {
 	if (alive) {
 		DrawTextureV(image, position, WHITE);
 	}
 }
 
-//metoda care va adauga coliziune navei misterioase:
+//metoda care va adauga coliziune navei misterioase
 Rectangle MysteryShip::getRect() {
 	if (alive) {
 		return { position.x, position.y, float(image.width), float(image.height) };
